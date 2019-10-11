@@ -1,3 +1,4 @@
 *.pyc
 hdims/media/*
 *.sqlite3
+.idea/*

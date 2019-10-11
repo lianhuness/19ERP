@@ -72,7 +72,7 @@
                             </li>
                         {% endif %}
 
-                        {% if user.member.isManager %}
+                        {% if user.is_superuser or user.member.isManager %}
 
                             <li class="dropdown">
                                 <a href="#">Managers</a>
