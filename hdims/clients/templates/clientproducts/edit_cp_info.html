@@ -2,8 +2,13 @@
 
 
 {% block subintro_title %}
-    {{ client }} <strong> Edit Product  </strong>
+    {{ client }} - <strong> {{cp}} - {{cp.get_type_display }}</strong>
+    <ul class="inline">
+        <li> <a href="{% url 'edit_cp_name' cp_id=cp.id %}" class="btn btn-primary mb-2"> 修改产品名称/类别 </a> </li>
+    </ul>
 {% endblock %}
+
+
 {% block subintro_list%}
     <li><a href={% url 'client_index' %}> Clients </a>
         <span class="divider">/</span>
@@ -23,6 +28,10 @@
             })
         })
     </script>
+
+    <div class="row">
+
+    </div>
 
     <div class="row">
         <div class="span7">

@@ -209,6 +209,7 @@ def edit_cp_info(request, cp_id):
                 form = CPInfoForm(instance=cp.cpinfo)
         except:
             form = CPInfoForm()
+    form.hideFields(cp)
     html = "clientproducts/%s.html" % whoami()
     return render(request, html, {'client': client, 'cp': cp, 'form': form})
 
@@ -325,8 +326,6 @@ def update_co_status(request, co_id, nxt_action):
         return redirect(reverse('view_co', kwargs={'co_id': co.id}))
     return HttpResponse("No Permission!")
 
-
-
 from .models import OrderProduct, OrderProductForm
 
 def add_cop(request, co_id):
@@ -346,7 +345,9 @@ def add_cop(request, co_id):
             return redirect(reverse('add_cop', kwargs={'co_id': co.id}))
     else:
         form = OrderProductForm()
-        form.fields['cp'].queryset = client.clientproduct_set.filter(expired=True).all()
+        form.fields['cp'].queryset = client.clientproduct_set.filter(expired=False).all()
+
+
     html = "clientorders/%s.html" % whoami()
     return render(request, html, {'client': client, 'co': co, 'form': form})
 
@@ -365,7 +366,7 @@ def edit_cop(request, cop_id):
             return redirect(reverse('view_co', kwargs={'co_id': co.id}))
     else:
         form = OrderProductForm(instance=cop)
-        form.fields['cp'].queryset = client.clientproduct_set.filter(expired=True).all()
+        form.fields['cp'].queryset = client.clientproduct_set.filter(expired=False).all()
 
     html = "clientorders/%s.html" % whoami()
     return render(request, html, {'client': client, 'co': co, 'form': form, 'cop': cop})

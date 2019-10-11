@@ -22,7 +22,6 @@ class Member(models.Model):
             return True
         return self.role == 'L1' or self.role == 'L2'
 
-
     def isManager(self):
         if self.user.is_superuser:
             return True

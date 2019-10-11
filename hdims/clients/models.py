@@ -60,14 +60,21 @@ PRICE_TERM_CHOICE=(
     ('T', 'Tax(No Shipping')
 )
 
+
+CP_TYPE_CHOICE = (
+    ('PRODUCT', u'产品'),
+    ('SHIPPING', u'运费'),
+    ('MOLD', u'磨具'),
+)
+
 class ClientProduct(models.Model):
     """ Price: Trade Currency, not for finance clearance
         PriceRMB: Finance Clearance Term
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
     client = models.ForeignKey(Client,
                                on_delete=models.CASCADE)
+    type = models.CharField(verbose_name=u'类目', max_length=20, choices=CP_TYPE_CHOICE, default='PRODUCT')
     name = models.CharField(verbose_name='Product Name', max_length=100)
     created_date = models.DateField(auto_now_add=True, verbose_name="Created Date")
     expired = models.BooleanField(default=False, verbose_name='Expired Product')
@@ -80,7 +87,7 @@ class ClientProduct(models.Model):
 class ClientProductForm(forms.ModelForm):
     class Meta:
         model = ClientProduct
-        fields=['name']
+        fields=['type', 'name']
 
 class CPInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -121,18 +128,27 @@ class CPInfo(models.Model):
                                     verbose_name="Carton G.W.(KG)",
                                     blank=True,
                                     null=True)
+    note = models.TextField(verbose_name='Note', blank=True, null=True)
+
     def __str__(self):
         return "INFO: %s" % self.cp
 
 
-CPINFO_DISPLAY_FIELDS= ['price', 'currency', 'priceTerm', 'priceRMB', 'cost',
+CPINFO_DISPLAY_FIELDS= ['price', 'currency', 'priceTerm', 'note', 'priceRMB', 'cost',
                         'unit_size', 'unit_weight', 'material',
-                        'carton_size', 'qty_carton', 'carton_nw', 'carton_gw']
+                        'carton_size', 'qty_carton', 'carton_nw', 'carton_gw', 'note']
 
 class CPInfoForm(forms.ModelForm):
     class Meta:
         model= CPInfo
         fields = CPINFO_DISPLAY_FIELDS
+
+    def hideFields(self, cp):
+        displayFields = ['price', 'currency', 'note']
+        if cp.type in ['MOLD', 'SHIPPING']:
+            for fld in CPINFO_DISPLAY_FIELDS:
+                if fld not in displayFields:
+                    self.fields[fld].widget = forms.HiddenInput()
 
 
 def cpcost_directory_path(instance, filename):

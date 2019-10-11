@@ -34,15 +34,17 @@
             </form>
         </div>
         <div class="span6">
-            <h4> Client's Product List </h4>
+            <h4> {{client}} 的产品列表  </h4>
             <table class="table">
                 <tr>
-                    <th> Name </th>
-                    <th> Price </th>
+                    <th> 类别 </th>
+                    <th> 名称 </th>
+                    <th> 单价  </th>
                 </tr>
 
                 {% for cp in client.clientproduct_set.all %}
                     <tr>
+                        <td> {{ cp.get_type_display }}</td>
                         <td> {{ cp }}</td>
                         <td>
                             {{ cp.cpinfo.price }} - {{ cp.cpinfo.priceTerm }}
