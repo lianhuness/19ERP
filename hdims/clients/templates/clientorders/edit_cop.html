@@ -1,0 +1,36 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+   {{co }} - <strong> Edit PRODUCT </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li><a href={% url 'client_index' %}> Clients </a>
+        <span class="divider">/</span>
+    </li>
+    <li><a href="{% url 'view_client' client_id=client.id  %}" > {{ client }} </a>
+        <span class="divider">/</span>
+    </li>
+    <li><a href="{% url 'view_co' co_id=co.id  %}" > {{ co }} </a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active"> Edit Product </li>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        {% include  "htmls/cop_display.html" with cop_list=co.orderproduct_set.all order=co %}
+    </div>
+
+
+    <div class="row">
+    <h4> {{co}} / Edit Order Product </h4>
+    <form action="{% url 'edit_cop' cop_id=cop.id %}" method="POST">
+        {% csrf_token %}
+        <table class="table">
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Edit"/>
+    </form>
+    </div>
+{% endblock %}

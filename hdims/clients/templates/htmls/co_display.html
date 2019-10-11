@@ -1,0 +1,54 @@
+{% if co_single or co_list %}
+{% comment %} Single CP {% endcomment %}
+    <table class="table">
+        <tr>
+            {% if co_list %}
+                <th> Index </th>
+            {% endif %}
+            <th> Sales Rep </th>
+            <th> Job_ID </th>
+            <th> Created Time </th>
+            <th> Type </th>
+            <th> Archieved </th>
+            <th> Status </th>
+            <th> Contactor </th>
+            <th> PO </th>
+            <th> TotalAmount</th>
+            <th> Delivery Date</th>
+        </tr>
+
+        {% if co_single %}
+            <tr>
+                <td> {{ co_single.user.member }}</td>
+                <td> {{ co_single.job_id }}</td>
+                <td> {{ co_single.created_time }}</td>
+                <td> {{ co_single.order_type }}</td>
+                <td> {{ co_single.archive }}</td>
+                <td> {{ co_single.status }} </td>
+                <td> {{ co_single.contactor }}</td>
+                <td> {{  co_single.po_number }}</td>
+                <td> {{ co_single.totalAmount }}({{ co_single.currency }})</td>
+                <td> {{ co_single.deliveryDate }}</td>
+            </tr>
+        {% endif %}
+
+        {% if co_list %}
+            {% for co_single in co_list %}
+                <tr>
+                    <td> {{ forloop.counter }}</td>
+                    <td> {{ co_single.user.member }}</td>
+                    <td> <a href="{% url 'view_co' co_id=co_single.id %}">  {{ co_single.job_id }} </a></td>
+                    <td> {{ co_single.created_time }}</td>
+                    <td> {{ co_single.order_type }}</td>
+                    <td> {{ co_single.archive }}</td>
+                    <td> {{ co_single.status }} </td>
+                    <td> {{ co_single.contactor }}</td>
+                    <td> {{  co_single.po_number }}</td>
+                <td> {{ co_single.totalAmount }}({{ co_single.currency }})</td>
+                <td> {{ co_single.deliveryDate }}</td>
+
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+{% endif %}

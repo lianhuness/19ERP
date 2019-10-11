@@ -1,0 +1,17 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+     <strong> Accounts - {{ account_set|length }} </strong>
+    <ul class="inline">
+        <li> <a class="btn btn-primary" href="{% url 'add_account'  %}"> Add New </a></li>
+    </ul>
+{% endblock %}
+{% block subintro_list%}
+    <li class="active"> Accounts </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% include 'htmls/account_display.html' with account_list=account_list %}
+    </div>
+{% endblock %}

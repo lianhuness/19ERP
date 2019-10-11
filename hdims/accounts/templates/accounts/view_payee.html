@@ -1,0 +1,22 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+    <strong>  Payee </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li> <a href="{% url 'payee_index' %}"> Payees</a><span class="divider">/</span></li>
+    <li class="active"> {{payee}} </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h1>  {{ payee }}</h1>
+        {% include 'htmls/payee_display.html' with payee_single=payee %}
+    </div>
+
+    <div class="row">
+
+        <h4> Payment History </h4>
+
+    </div>
+{% endblock %}

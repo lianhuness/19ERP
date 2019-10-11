@@ -1,0 +1,151 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+   {{ co.order_type }} - <strong> {{ co }} </strong>
+    <ul class="inline">
+        {% if co.editable %}
+            <li> <a href="{% url 'edit_co' co_id=co.id %}" class="btn btn-primary mb-2"> Edit Info </a> </li>
+            <li> <a href="{% url 'add_cop' co_id=co.id %}"  class="btn btn-primary mb-2">Add Product  </a></li>
+        {% endif %}
+
+        {% if user.member.isManager %}
+            <li> <a href="{% url 'add_income' co_id=co.id %}" class="btn btn-primary mb-2"> Add Income </a></li>
+            <li> <a href="{% url 'add_outcome' co_id=co.id %}" class="btn btn-primary mb-2"> Add Payment </a></li>
+        {% endif %}
+
+        {% if user.member.isSales and co.salesNextAction %}
+            {% for action in co.salesNextAction %}
+            <li> <a href="{% url 'update_co_status' co_id=co.id nxt_action=action %}" class="btn btn-large btn-color btn-rounded">
+                {{action}}
+            </a></li>
+            {% endfor %}
+        {% endif %}
+        {% if user.member.isManager and co.mgrNextAction %}
+             {% for action in co.mgrNextAction %}
+            <li> <a href="{% url 'update_co_status' co_id=co.id nxt_action=action %}" class="btn btn-large btn-color btn-rounded">
+                {{action}}
+            </a></li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+{% endblock %}
+
+{% block subintro_list%}
+    <li><a href={% url 'client_index' %}> Clients </a>
+        <span class="divider">/</span>
+    </li>
+    <li><a href="{% url 'view_client' client_id=client.id  %}" > {{ client }} </a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active"> {{co }} </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <ul>
+            {% for msg in co.cosummary.warningList %}
+                <li class="alert alert-warning"> {{  msg }}  </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="span4">
+            <table class="table">
+                <tr> <th> Client </th>  <td> {{ co.contactor.name }}</td></tr>
+                <tr> <th> Company </th> <td> {{ co.client }}</td></tr>
+                <tr> <th> Address </th> <td> {{ co.contactor.note }}</td></tr>
+                <tr> <th> Sales Rep </th> <td> {{ co.user.member.name }}</td></tr>
+            </table>
+        </div>
+
+        <div class="span4">
+            <table class="table">
+                <tr> <th> Job ID  </th>  <td> {{ co.job_id }}</td></tr>
+                <tr> <th> Type  </th> <td> {{ co.order_type }}</td></tr>
+                <tr> <th> status </th> <td> {{ co.status }}</td></tr>
+                <tr> <th> Created Date </th> <td> {{ co.created_time.date }}</td></tr>
+            </table>
+        </div>
+
+        <div class="span4">
+            <table class="table">
+                <tr> <th> Amount  </th>  <td> {{ co.totalAmount }}-{{ co.currency }}</td></tr>
+                <tr> <th> PO  </th> <td> {{ co.po_number }}</td></tr>
+                <tr> <th> Delivery Date </th> <td> {{ co.deliveryDate }}</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        {% include  "htmls/cop_display.html" with cop_list=co.orderproduct_set.all order=co %}
+    </div>
+
+
+    <div class="row">
+        <div class="span4">
+            <table class="table">
+                <tr><th> 美金总收款(USD) </th>  <td> {{ co.cosummary.incomeTotal }}</td></tr>
+                <tr><th> 美金未收款(USD) </th>  <td> {{ co.cosummary.unpaidTotal }}</td></tr>
+                <tr><th> 未结汇交易 </th>  <td> {{ co.cosummary.needJiehuiQty }}</td></tr>
+                <tr><th> 总收款(RMB) </th>  <td> {{ co.cosummary.rmbIncomeTotal }}</td></tr>
+                <tr><th> 总付款(RMB) </th>  <td> {{ co.cosummary.rmbOutcomeTotal }}</td></tr>
+                <tr><th> 利润(RMB) /利润率</th>  <td> {{ co.cosummary.rmbProfit }}/{{ co.summary_single.rmbProfitRatio}}</td></tr>
+            </table>
+        </div>
+        <div class="span8">
+            <div class="priceBox">
+                <div class="span3">
+                    <h4 class="light">Transaction </h4>
+                </div>
+                <div class="span3">
+                    <span class="emphasis"> {{ co.transfer_set.count }}  <em>  Trans </em></span>
+                </div>
+                {% include 'htmls/transfer_display.html' with transfer_set=co.transfer_set.all  %}
+        </div>
+        </div>
+    </div>
+    {#        <div class="row">#}
+    {#                <span class="emphasis-2">#}
+    {#                            <a class="btn btn-large btn-color btn-rounded" href="{% url 'add_income' co_id=co.id %}">#}
+    {#                                ADD Income#}
+    {#                            </a>#}
+    {#                            <a class="btn btn-large btn-color btn-rounded" href="{% url 'add_outcome' co_id=co.id %}">#}
+    {#                                ADD Payment#}
+    {#                            </a>#}
+    {#                        </span>#}
+    {#        </div>#}
+
+
+
+    <div class="row">
+        <h4> Order Summary
+        </h4>
+        {% include  "htmls/co_summary_display.html" with co=co %}
+
+    </div>
+
+
+    <div class="row">
+        <h4> History </h4>
+        <table class="table">
+            <tr>
+                <th> Time </th>
+                <th> User </th>
+                <th> Status </th>
+                <th> Note </th>
+            </tr>
+
+            {% for cos in co.costatus_set.all %}
+                <tr>
+                    <td> {{ cos.created_time }}</td>
+                    <td> {{ cos.user }}</td>
+                    <td> {{ cos.status }}</td>
+                    <td> {{  cos.note  }}</td>
+                </tr>
+
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

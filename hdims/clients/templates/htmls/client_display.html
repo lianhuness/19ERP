@@ -1,0 +1,49 @@
+{% if client %}
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th> Sales Rep </th>
+            <th> Create Date</th>
+            <th> Name </th>
+            <th> Country</th>
+            <th> Source </th>
+
+        </tr>
+
+        <tr>
+            <td> {{ client.user.member }}</td>
+            <td> {{ client.created_date }}</td>
+            <td> {{ client.name }} </td>
+            <td> {{ client.country }}</td>
+            <td> {{ client.source }}</td>
+
+        </tr>
+    </table>
+{% endif %}
+
+
+{% if client_set and client_set|length > 0 %}
+
+    <table class="table table-striped table-bordered">
+        <tr>
+           <th> Sales Rep </th>
+            <th> Name</th>
+            <th> Country </th>
+            <th> Source </th>
+            <th> CP Qty </th>
+            <th> CO Qty</th>
+
+        </tr>
+        {% for client in client_set %}
+            <tr>
+                <td> {{ client.user.member }}</td>
+                <td> <a href="{% url 'view_client' client_id=client.id %}">{{ client.name }}</a></td>
+                <td> {{ client.country }}</td>
+                <td> {{  client.source }}</td>
+                <td> {{ client.clientproduct_set.all|length }}</td>
+                <td> {{ client.clientorder_set.all|length}} </td>
+
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endif %}

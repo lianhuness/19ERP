@@ -1,0 +1,105 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+    <strong> Accounts - {{ account }} </strong>
+    <ul class="inline">
+        {% if account.accountBlanace_set.all|length == 0 %}
+            <li> <a class="btn btn-primary" href="{% url 'init_account_balance'  account_id=account.id %}"> Initialize </a></li>
+
+        {% endif %}
+    </ul>
+{% endblock %}
+{% block subintro_list%}
+    <li> <a href="{% url 'account_index' %}"> Accounts </a> <span class="divider">/</span></li>
+    <li class="active"> {{account}} </li>
+
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h4> 对账单 - {{ account.accountbalance_set.all|length }} </h4>
+        <table class="table">
+            <tr>
+                <th> ID </th>
+                <th> 对账日期</th>
+                <th> Previous Balance ID </th>
+                <th> Previous Balance </th>
+                <th> Activity Sum </th>
+                <th> Adjust Balance </th>
+                <th> End Balance </th>
+                <th> Note </th>
+            </tr>
+
+            {% for ab in account.accountbalance_set.all %}
+                <tr>
+                    <td> {{ ab.id }}</td>
+                    <td> {{ ab.balance_date }}</td>
+                    <td> {% if ab.previousBalance %} {{ ab.previousBalance.id }}  {% endif %}</td>
+                    <td> {{ ab.previousBalance }}</td>
+                    <td> {{ ab.activitySum }}</td>
+                    <td> {{ ab.adjustBalance }}</td>
+                    <td> {{ ab.balance }}</td>
+                    <td> {{ ab.note }}</td>
+                </tr>
+
+            {% endfor %}
+        </table>
+    </div>
+
+    {% if account.duizhangList|length > 0 and account.accountbalance_set.all|length > 0 %}
+    <div class="row">
+        <h4> 对账 </h4>
+        <table class="table">
+            <tr>
+                <th> Previous Node </th>
+                <th> Previous Balance </th>
+                <th> Activity Sum </th>
+                <th> Current Balance </th>
+                <th> 结算 </th>
+            </tr>
+
+            <tr>
+                <td> {{ account.accountbalance_set.last.id }}</td>
+                <td> {{ account.accountbalance_set.last.balance }}</td>
+                <td> {{ account.activitySum }} </td>
+                <td> {{ account.balance }}</td>
+                <td>
+                    <form action="{% url 'account_duizhang' account_id=account.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="number" name="trueBalance" value="{{ account.balance }}" step="0.01" required="" id="id_trueBalance">
+                         <input type="submit" value="Submit"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <h4> 未对账列表 </h4>
+        <table class="table">
+            <tr>
+                <th> TRAN ID</th>
+                <th> Date </th>
+                <th> JOB ID </th>
+                <th> Type </th>
+                <th> Currency </th>
+                <th> Amount </th>
+                <th> Need Jiehui </th>
+                <th> trueAmount </th>
+            </tr>
+            {% for tran in account.duizhangList %}
+                <tr>
+                    <td> {{ tran.id }}</td>
+                    <td> {{ tran.date }}</td>
+                    <td> {{ tran.clientorder }}</td>
+                    <td> {{ tran.type }}</td>
+                    <td> {{ tran.currency }}</td>
+                    <td> {{ tran.amount }}</td>
+                    <td> {{ tran.need_jiehui }}</td>
+                    <td> {{ tran.trueAmount }}</td>
+                </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endblock %}

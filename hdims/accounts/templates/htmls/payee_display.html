@@ -1,0 +1,37 @@
+{% if payee_single or payee_set %}
+    <table class="table">
+        <tr>
+            <th> Index </th>
+            <th> Name </th>
+            <th> Currency</th>
+            <th> Type </th>
+            <th> Note</th>
+        </tr>
+
+        {% if payee_single %}
+            <tr>
+                <td> {{ payee_single.id }}</td>
+                <td> {{ payee_single.name }}</td>
+                <td> {{ payee_single.currency }}</td>
+                <td> {{ payee_single.type }}</td>
+                <td> {{ payee_single.note }}</td>
+                <td> <a href="{% url 'edit_payee' payee_id=payee_single.id %}"> Edit</a>  </td>
+            </tr>
+        {% elif payee_set %}
+
+            {% for payee_single in payee_set %}
+                <tr>
+                    <td> {{ forloop.counter }}</td>
+                    <td> <a href="{% url 'view_payee' payee_id=payee_single.id %}"> {{ payee_single.name }} </a></td>
+                    <td> {{ payee_single.currency }}</td>
+                    <td> {{ payee_single.type }}</td>
+                    <td> {{ payee_single.note }}</td>
+                    <td> <a href="{% url 'edit_payee' payee_id=payee_single.id %}"> Edit</a>  </td>
+                </tr>
+            {% endfor %}
+
+        {% endif %}
+    </table>
+
+
+{% endif %}

@@ -1,0 +1,24 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+     <strong> All Orders - {{ order_set|length }}  </strong>
+    <ul class="inline">
+        <li> <a href="{% url 'list_all_order_summaryView'  %}"  class="btn btn-primary mb-2">Finance View  </a></li>
+    </ul>
+{% endblock %}
+{% block subintro_list%}
+    <li class="active"> All Orders </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <form class="form-inline" action="{% url 'list_all_orders' %}" method="post">
+            {% csrf_token %}
+            {{ filterForm }}
+            <button type="submit" class="btn btn-primary mb-2">Search </button>
+        </form>
+    </div>
+    <div class="row">
+        {% include "htmls/co_display.html" with co_list=order_set%}
+    </div>
+{% endblock %}

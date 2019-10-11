@@ -1,0 +1,20 @@
+{% extends "htmls/base.html" %}
+
+{% block content %}
+
+    <h1> {{cp}} - Edit Cost  </h1>
+    <form action="{% url 'edit_cp_cost' cp_id=cp.id %}" method="POST" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Edit"/>
+    </form>
+
+    {% if cp.cost %}
+    <h2 class="debug"> CBOM Image </h2>
+        <div class="smallimg">
+            <img src= {{cp.cost.cbom.url}} >
+        </div>
+    {% endif  %}
+{% endblock %}

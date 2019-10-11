@@ -1,0 +1,77 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+    Member <strong> List </strong>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="span12">
+            <div class="row">
+                <div class="span4">
+                    <div class="priceBox">
+                        <h4 class="light"> L1 - Sales </h4>
+                        <hr>
+                        <ul>
+                            <li> 添加客户/修改客户/修改客户产品内容</li>
+                            <li> 添加订单/订单内容</li>
+                            <li> 草稿/提交/发货 订单  </li>
+                            <li> 添加产品进度 </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="priceBox">
+                        <h4 class="light"> L2 - Manager </h4>
+                        <hr>
+                        <ul>
+                            <li> 添加客户/修改客户/修改客户产品内容</li>
+                            <li> 添加订单/订单内容</li>
+                            <li> 草稿/提交/发货 订单  </li>
+                            <li> 添加产品进度 </li>
+                            <li> <strong> 确认/完成/取消 订单</strong></li>
+                            <li> <strong> 查看/修改 所有人订单</strong></li>
+                            <li> <strong> 添加进出款项  </strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="priceBox">
+                        <h4 class="light"> L3 - Account </h4>
+                        <hr>
+                        <ul>
+                            <li> <strong> 查看账户 </strong></li>
+                            <li> <strong> 对账 </strong></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered table-striped" >
+            <tr>
+                <th> Username</th>
+                <th> Name</th>
+                <th> Role </th>
+            </tr>
+
+            {% for user in users %}
+                <tr>
+                    <td> {{ user.username }}</td>
+                    <td> {{ user.member.name }}</td>
+                    <td> {{ user.member.role }}</td>
+                    <td> <a href="{% url 'edit_member' member_id=user.member.id %}"> Edit </a></td>
+                </tr>
+            {% endfor %}
+
+        </table>
+
+        <a href="{% url 'add_member' %}" class="btn btn-large btn-color btn-rounded" > Add Member </a>
+
+
+    </div>
+
+{% endblock %}
+

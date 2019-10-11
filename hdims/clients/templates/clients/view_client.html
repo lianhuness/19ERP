@@ -1,0 +1,48 @@
+{% extends "htmls/base.html" %}
+
+
+{% block subintro_title %}
+    Client - <strong>  {{ client }}  </strong>
+    <ul class="inline">
+        <li> <a href="{% url 'edit_client' client_id=client.id %}" class="btn btn-primary mb-2"> Edit Client </a> </li>
+        <li> <a href="{% url 'add_contactor' client_id=client.id %}" class="btn btn-primary mb-2" > Add Contactor </a> </li>
+        <li> <a href="{% url 'add_clientproduct' client_id=client.id %}" class="btn btn-primary mb-2"> Add Product </a> </li>
+        <li><a href="{% url 'add_clientorder' client_id=client.id %}" class="btn btn-primary mb-2" > Add Order </a></p> </li>
+    </ul>
+{% endblock %}
+
+{% block subintro_list%}
+    <li><a href={% url 'client_index' %}> Clients </a><span class="divider">/</span></li>
+    <li class="active"> {{ client }} </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% include "htmls/client_display.html" with client=client %}
+    </div>
+
+    <div class="row">
+        <h4> Contactor List - <strong>{{ client.clientcontactor_set.count }} </strong> </h4>
+        {% if client.clientcontactor_set.count > 0 %}
+            {% include "htmls/contactor_display.html" with contactor_list=client.clientcontactor_set.all %}
+        {% endif %}
+
+    </div>
+
+    <div class="row">
+        <h4> Products List - <strong>{{ client.clientproduct_set.count }} </strong> </h4>
+        {% if client.clientproduct_set.count > 0 %}
+            {% include "htmls/cp_display.html" with cp_list=client.clientproduct_set.all %}
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <h4> Orders List - <strong> {{ client.clientorder_set.count }}</strong>   </h4>
+
+        {% if client.clientorder_set.count > 0 %}
+            {% include "htmls/co_display.html" with co_list=client.clientorder_set.all %}
+        {% endif %}
+
+    </div>
+
+{% endblock %}

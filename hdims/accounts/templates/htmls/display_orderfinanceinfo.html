@@ -1,0 +1,42 @@
+{% if co %}
+    {% if co.cosummary %}
+        <table class="table">
+            <tr>
+                <th> 未结汇Transfer  </th>  <td>  {{ co.cosummary.needJiehuiQty }}</td>
+            </tr>
+            <tr>
+                <th> Order Amount({{ co.cosummary.orderCurrency }}) </th>  <td>  {{ co.cosummary.orderAmount }}</td>
+            </tr>
+            <tr>
+                <th> CP Amount  </th>  <td>  {{ co.cosummary.cpAmount }} </td>
+            </tr>
+            <tr>
+                <th> Income (USD) </th>  <td>   {{ co.cosummary.incomeTotal }}</td>
+            </tr>
+            <tr>
+                <th> Unpaid  (USD) </th>  <td>   {{ co.cosummary.unpaidTotal }}</td>
+            </tr>
+            <tr>
+                <th> True Income(RMB) </th>  <td>   {{ co.cosummary.rmbIncomeTotal }}</td>
+            </tr>
+            <tr>
+                <th> True Outcome(RMB) </th>  <td>   {{ co.cosummary.rmbOutcomeTotal }}</td>
+            </tr>
+            <tr>
+                <th> Profit (RMB) </th>  <td>   {{ co.cosummary.rmbProfit }}</td>
+            </tr>
+            <tr>
+                <th> Order Complete Check List </th>
+                <td>
+                    <ul>
+                        <li>未结汇Transfer  == 0  </li>
+                        <li> Order Amount == CP Amount == Income(USD) </li>
+                        <li> True Income(RMB) - TrueOutcome(RMB) == Profit </li>
+                        <li> Profit > 0 </li>
+                    </ul>
+                </td>
+            </tr>
+
+        </table>
+{% endif %}
+{% endif %}

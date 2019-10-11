@@ -1,0 +1,32 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+      ADD <strong>  Payee </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li> <a href="{% url 'payee_index' %}"> Payees</a><span class="divider">/</span></li>
+    <li class="active"> Add Payee </li>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="span8">
+            <h4> Payee List </h4>
+        {% include 'htmls/payee_display.html' with payee_list=payee_list %}
+    </div>
+
+    <div class="span4">
+        <h1> Add Payee </h1>
+        <form action="{% url 'add_payee' %}" method="post">
+            {% csrf_token %}
+            <table class="table">
+                {{ form.as_table }}
+            </table>
+            <input type="submit" class="btn btn-large btn-color btn-rounded"  value="Add"/>
+        </form>
+
+    </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+<script>
+        $(document).ready(function () {
+            $("span.ratioDisplay").each(function(){
+                $val = $(this).text()
+                //TBD
+            })
+        })
+    </script>
+
+{% if co or co_list %}
+    {% comment %} Single CP {% endcomment %}
+    <table class="table">
+        <tr>
+            {% if co_list %}
+                <th> Index </th>
+                <th> Order ID </th>
+            {% endif %}
+            <th> Order Summary </th>
+            <th> Order Currency</th>
+            <th> Product Sub-Total</th>
+            <th> 货款收入(USD) </th>
+            <th> Unpaid (USD) </th>
+            <th> RMB收款</th>
+            <th> RMB付款</th>
+            <th> RMB利润</th>
+            <th> RMB利润率</th>
+            <th> 未结汇记录 </th>
+        </tr>
+
+        {% if co %}
+            <tr>
+                <td> {{ co.cosummary.orderAmount }}</td>
+                <td> {{ co.cosummary.orderCurrency }}</td>
+                <td> {{ co.cosummary.cpAmount }}</td>
+                <td> {{ co.cosummary.incomeTotal }}</td>
+                <td> {{ co.cosummary.unpaidTotal }}</td>
+                <td> {{ co.cosummary.rmbIncomeTotal }}</td>
+                <td> {{ co.cosummary.rmbOutcomeTotal }}</td>
+                <td> {{ co.cosummary.rmbProfit }}</td>
+                <td> <span class="ratioDisplay"> {{ co.cosummary.rmbProfitRatio}} </span></td>
+                <td> {{ co.cosummary.needJiehuiQty }}</td>
+            </tr>
+        {% endif %}
+
+        {% if co_list %}
+            {% for co in co_list %}
+                <tr>
+                    <td> {{ forloop.counter }}</td>
+                    <td> <a href="{% url 'view_co' co_id=co.id %}"> {{ co.job_id }}</a></td>
+                    <td> {{ co.cosummary.orderAmount }}</td>
+                    <td> {{ co.cosummary.orderCurrency }}</td>
+                    <td> {{ co.cosummary.cpAmount }}</td>
+                    <td> {{ co.cosummary.incomeTotal }}</td>
+                    <td> {{ co.cosummary.unpaidTotal }}</td>
+                    <td> {{ co.cosummary.rmbIncomeTotal }}</td>
+                    <td> {{ co.cosummary.rmbOutcomeTotal }}</td>
+                    <td> {{ co.cosummary.rmbProfit }}</td>
+                    <td> <span class="ratioDisplay"> {{ co.cosummary.rmbProfitRatio}} </span></td>
+                    <td> {{ co.cosummary.needJiehuiQty }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+
+{% endif %}

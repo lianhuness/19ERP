@@ -1,0 +1,66 @@
+ {% if transfer_set %}
+    <table class="table">
+        <tr>
+        <th> Index </th>
+            {% if showDetail %}
+
+                <th> ID </th>
+                <th> Client </th>
+                <th> Order ID </th>
+                <th> Type </th>
+            {% endif %}
+            <th> Date </th>
+            <th> Account </th>
+            <th> 金额</th>
+            <th> 需要结汇 </th>
+            <th> RMB金额</th>
+            <th> Note </th>
+            <th> 收/支 </th>
+        </tr>
+
+        {% for tran in transfer_set%}
+            <tr>
+            <td> {{ forloop.counter }}</td>
+                {% if showDetail  %}
+
+                    <td> {{ tran.id  }}</td>
+                    {% if tran.client  %}
+                        <td> <a href="{% url 'view_client' client_id=tran.client.id %}"> {{ tran.client }} </a></td>
+                        <td> <a href="{% url 'view_co' co_id=tran.clientorder.id %}">  {{ tran.clientorder }} </a></td>
+                    {% else %}
+                        <td> </td> <td> </td>
+                    {% endif %}
+                    <td> {{ tran.type }}</td>
+                {% endif %}
+                <td> {{ tran.date }}</td>
+                <td> {{ tran.account }}</td>
+                <td> {{ tran.amount }}（{{ tran.currency }}）</td>
+                <td> {{ tran.need_jiehui }}</td>
+                <td> {{ tran.trueAmount }}</td>
+                <td> {{ tran.note }}</td>
+                <td>
+                    {% if tran.income %}
+                        收 - {{ tran.income.payer }}
+                    {% endif %}
+                    {% if tran.outcome %}
+                       支 - {{ tran.outcome.payee }}
+                    {% endif %}
+                </td>
+
+                {% if user.member.isManager %}
+                    <td>
+                        <a href="{% url 'edit_transaction' tran_id=tran.id %}">
+                            Edit
+                        </a>
+                        {%  if tran.need_jiehui and tran.income %}
+                            <a href="{% url 'jiehui_income' income_id=tran.income.id %}">
+                                结汇
+                            </a>
+                        {% endif %}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endif %}

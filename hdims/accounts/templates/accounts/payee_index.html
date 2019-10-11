@@ -1,0 +1,17 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+    <strong> Payee  </strong> -  {{ payee_set|length }}
+     <ul class="inline">
+    <li> <a href="{% url 'add_payee' %}" class="btn btn-primary mb-2">Add New Payee </a> </li>
+     </ul>
+{% endblock %}
+{% block subintro_list%}
+    <li class="active"> Payee </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% include 'htmls/payee_display.html' with payee_set=payee_set %}
+    </div>
+{% endblock %}

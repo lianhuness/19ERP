@@ -1,0 +1,21 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+     <strong> All Clients  -  {{ client_set|length }}  </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li class="active"> Clients </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <form class="form-inline" action="{% url 'list_all_clients' %}" method="post">
+            {% csrf_token %}
+            {{ filterForm }}
+            <button type="submit" class="btn btn-primary mb-2">Search </button>
+        </form>
+    </div>
+    <div class="row">
+        {% include "htmls/client_display.html" with client_set=client_set managerView=True%}
+    </div>
+{% endblock %}

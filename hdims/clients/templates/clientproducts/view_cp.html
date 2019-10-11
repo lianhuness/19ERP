@@ -1,0 +1,22 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+   {{ client }} - <strong> {{  cp }} </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li><a href={% url 'client_index' %}> Clients </a>
+        <span class="divider">/</span>
+    </li>
+    <li><a href="{% url 'view_client' client_id=client.id  %}" > {{ client }} </a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active"> {{cp.name}} </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h1> {{cp}} / <a href="{% url 'edit_cp_name' cp_id=cp.id %}"> Edit Name </a></h1>
+        {% include "htmls/cp_display.html" with cp_single=cp  %}
+        <p> <a href="{% url 'edit_cp_info' cp_id=cp.id %}" class="btn btn-large btn-color btn-rounded"> Edit </a></p>
+    </div>
+{% endblock %}

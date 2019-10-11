@@ -1,0 +1,30 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+    Client <strong>  {{ client }}  </strong>
+{% endblock %}
+
+{% block subintro_list%}
+    <li><a href={% url 'client_index' %}> Clients </a>
+        <span class="divider">/</span>
+    </li>
+    <li><a href="{% url 'view_client' client_id=client.id  %}" > {{ client }} </a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active"> Edit </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h4> Edit  </h4>
+
+        <form action="{% url 'edit_client' client_id=client.id %}" method="post">
+            <table class="table">
+                {% csrf_token %}
+                {{ form.as_table }}
+            </table>
+            <input type="submit" class="btn btn-large btn-color btn-rounded" value="Edit"/>
+        </form>
+    </div>
+
+{% endblock %}

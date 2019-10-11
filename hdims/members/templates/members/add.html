@@ -1,0 +1,26 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+     <strong>Member  </strong>
+{% endblock %}
+
+{% block subintro_list%}
+    <li><a href={% url 'member_index' %}>Members </a><span class="divider">/</span></li>
+    <li class="active">Add New </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h1> Add Member </h1>
+        <form action="{% url 'add_member' %}" method="POST">
+            {% csrf_token %}
+            <table class="table">
+                {{ form.as_table }}
+            </table>
+            <input type="submit"  class="btn btn-large btn-color btn-rounded"  value="Add Member"/>
+        </form>
+
+
+    </div>
+
+{% endblock %}

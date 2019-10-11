@@ -1,0 +1,14 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+    <strong> Transfer  </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li class="active"> Transfer </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% include 'htmls/transfer_display.html' with transfer_set=transfer_set showDetail="True" %}
+    </div>
+{% endblock %}

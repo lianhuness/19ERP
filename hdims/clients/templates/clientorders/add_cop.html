@@ -1,0 +1,58 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+   {{co }} - <strong> ADD PRODUCT </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li><a href={% url 'client_index' %}> Clients </a>
+        <span class="divider">/</span>
+    </li>
+    <li><a href="{% url 'view_client' client_id=client.id  %}" > {{ client }} </a>
+        <span class="divider">/</span>
+    </li>
+    <li><a href="{% url 'view_co' co_id=co.id  %}" > {{ co }} </a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active"> Add Product </li>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        {% include  "htmls/cop_display.html" with cop_list=co.orderproduct_set.all order=co %}
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <h4> {{co}} / Add Product To Order  </h4>
+            <form action="{% url 'add_cop' co_id=co.id %}" method="POST">
+                {% csrf_token %}
+                <table class="table">
+                    {{ form.as_table }}
+                </table>
+                <input type="submit" class="btn btn-large btn-color btn-rounded"  value="Add"/>
+            </form>
+        </div>
+        <div class="span6">
+            <h4> Client's Product List </h4>
+            <table class="table">
+                <tr>
+                    <th> Name </th>
+                    <th> Price </th>
+                </tr>
+
+                {% for cp in client.clientproduct_set.all %}
+                    <tr>
+                        <td> {{ cp }}</td>
+                        <td>
+                            {{ cp.cpinfo.price }} - {{ cp.cpinfo.priceTerm }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+
+
+{% endblock %}

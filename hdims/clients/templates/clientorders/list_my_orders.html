@@ -1,0 +1,21 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+     <strong> My Orders - {{ order_set|length }}  </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li class="active"> My Orders </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <form class="form-inline" action="{% url 'list_my_orders' %}" method="post">
+            {% csrf_token %}
+            {{ filterForm }}
+            <button type="submit" class="btn btn-primary mb-2">Search </button>
+        </form>
+    </div>
+    <div class="row">
+        {% include "htmls/co_display.html" with co_list=order_set%}
+    </div>
+{% endblock %}

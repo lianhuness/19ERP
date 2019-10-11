@@ -1,0 +1,45 @@
+{% if cop_single or cop_list %}
+{% comment %} Single CP {% endcomment %}
+    <table class="table">
+        <tr>
+            {% if cop_list %}
+                <th> Index </th>
+            {% endif %}
+            <th> Product </th>
+            <th> Qty </th>
+            <th> Price({{ co.currency }}) </th>
+            <th> Sub-Total ({{ co.currency }}) </th>
+            <th> Note </th>
+
+        </tr>
+
+        {% if cop_single %}
+            <tr>
+                <td>TBD</td>
+            </tr>
+        {% endif %}
+
+        {% if cop_list %}
+            {% for cop_single in cop_list %}
+                <tr>
+                <td> {{ forloop.counter }}</td>
+                <td> {{ cop_single.cp }} </td>
+                <td> {{ cop_single.qty }}</td>
+                <td> {{ cop_single.price }}-{{ cop_single.currency }}</td>
+                <td> {{ cop_single.subtotal }}-{{ cop_single.currency }} </td>
+                <td> {{  cop_single.note }}</td>
+                {% if co.editable %}
+                <td> <a href="{% url 'edit_cop' cop_id=cop_single.id %}"> Edit </a></td>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> <strong> Total: {{ co.copTotalQty }} </strong> </td>
+                <td> <strong> Total: {{ co.copTotalSubTotal }} </strong> </td>
+                <td> </td>
+            </tr>
+        {% endif %}
+    </table>
+{% endif %}

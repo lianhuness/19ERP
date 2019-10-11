@@ -1,0 +1,26 @@
+<script>
+        $(document).ready(function () {
+            $("input#id_expr").change(function(){
+                try  {
+                    $("span#calculate_output").text( eval($(this).val()));
+                }
+
+                catch(exception) {
+                    $("span#calculate_output").text("公式输入错误！");
+                }
+
+            })
+        })
+    </script>
+
+<div class="row">
+    <h4> Calculator </h4>
+    <input type="text" name="expr" required="" id="id_expr" placeholder="输入公式" >
+    <span id="calculate_output"> </span>
+
+    <hr>
+    1 kg = 2.2 lb = 2.2046 LB = 35.274 Ounce
+    <hr>
+    1 meter = 39.37 Inch = 3.28 Foot = 1.09 Yard
+    <hr>
+</div>

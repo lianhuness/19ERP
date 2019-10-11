@@ -1,0 +1,178 @@
+ {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href= " {% static  'assets/css/bootstrap.css' %} " />
+    <link rel="stylesheet" href= " {% static  'assets/css/bootstrap-responsive.css' %} " />
+    <link rel="stylesheet" href= " {% static  'css/base_style.css' %} " />
+
+    <link rel="stylesheet" href= " {% static  'assets/css/headerfix.css' %} " />
+    <link rel="stylesheet" href= " {% static  'assets/css/overwrite.css' %} " />
+    <link rel="stylesheet" href= " {% static  'assets/css/style.css' %} " />
+    <link rel="stylesheet" href= " {% static  'assets/color/default.css' %} " />
+    <link rel="stylesheet" href= " {% static  'assets/color/color.css' %} " />
+
+
+
+    <script src= " {% static  'assets/js/jquery.js' %} "> </script>
+    <script src= " {% static  'assets/js/modernizr.js' %} "></script>
+    <script src= " {% static  'assets/js/bootstrap.js' %} " > </script>
+    <script src= " {% static  'assets/js/jquery.easing.1.3.js' %} " > </script>
+    <script src= " {% static  'assets/js/google-code-prettify/prettify.js' %} " > </script>
+    <script src= " {% static  'assets/js/jquery.prettyPhoto.js' %} " > </script>
+    <script src= " {% static  'assets/js/portfolio/jquery.quicksand.js' %} " > </script>
+    <script src= " {% static  'assets/js/portfolio/setting.js' %} " > </script>
+    <script src= " {% static  'assets/js/hover/jquery-hover-effect.js' %} " > </script>
+    <script src= " {% static  'assets/js/jquery.flexslider.js' %} " > </script>
+    <script src= " {% static  'assets/js/classie.js' %} " > </script>
+    <script src= " {% static  'assets/js/cbpAnimatedHeader.min.js' %} " > </script>
+    <script src= " {% static  'assets/js/jquery.refineslide.js' %} " > </script>
+    <script src= " {% static  'assets/js/jquery.ui.totop.js' %} " > </script>
+    <script src= " {% static  'assets/js/custom.js' %} " > </script>
+{#<script src= " {% static  'assets/js/' %} " > </script>#}
+</head>
+
+<body>
+<header>
+    <div class="cbp-af-header">
+        <div class="cbp-af-inner">
+            <div class="container">
+                <div class="row">
+
+            <div class="span4">
+              <!-- logo -->
+              <div class="logo">
+                <h1><a href={% url 'home' %}>DW Sports</a></h1>
+                <!-- <img src="assets/img/logo.png" alt="" /> -->
+              </div>
+              <!-- end logo -->
+            </div>
+
+            <div class="span8">
+              <!-- top menu -->
+              <div class="navbar">
+                <div class="navbar-inner">
+                  <nav>
+                    <ul class="nav topnav">
+                      <li class="dropdown active">
+                        <a href={% url 'home' %}>Home</a>
+                      </li>
+                        {% if user.is_authenticated and user.member.isSales %}
+                            <li class="dropdown">
+                                <a href="#">Clients</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href={% url 'client_index' %}> Client List </a></li>
+                                    <li><a href={% url 'add_client' %}>Add Client </a></li>
+                                    <li><a href={% url 'list_my_orders' %}>My Orders </a></li>
+
+                                </ul>
+                            </li>
+                        {% endif %}
+
+                        {% if user.member.isManager %}
+
+                            <li class="dropdown">
+                                <a href="#">Managers</a>
+                                <ul class="dropdown-menu">
+                                    <li> <a href="{% url 'list_all_clients' %}"> All Clients </a></li>
+                                    <li><a href={% url 'list_all_orders' %}>All Orders </a></li>
+                                    <li><a href={% url 'member_index' %}>Member List </a></li>
+                                    <li><a href={% url 'add_member' %}>Add Member </a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#">Accounts</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href={% url 'account_index' %}>Account List  </a></li>
+                                    <li><a href={% url 'payee_index' %}>Payee List </a></li>
+                                    <li><a href={% url 'list_transaction' %}>Transfer List </a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href={% url 'help_home' %}>Help </a>
+                        </li>
+
+                        {% if user.is_authenticated  %}
+                            <li class="dropdown">
+                                <a href="#">{{user.member}} </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href={% url 'member_logout' %}> Logout  </a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="dropdown">
+                                <a href={% url 'member_login' %}>Login </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+              <!-- end menu -->
+            </div>
+
+          </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="subintro">
+    <div class="container">
+        <div class="row">
+            <div class="span8">
+                <h3>
+                    {% block subintro_title%}
+                        <h3 class="debug"> Template <strong>Scaffolding</strong> </h3>
+                    {% endblock %}
+                </h3>
+            </div>
+            <div class="span4">
+                <ul class="breadcrumb notop">
+                    {% block subintro_list%}
+{#                    <li><a href="#">Home</a><span class="divider">/</span></li>#}
+{#                    <li class="active">Scaffolding</li>#}
+                    {% endblock %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<section id="messages">
+    <div class="container">
+    <div class="row">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                    <li class="alert-success"> {{ message }} </li>
+                    {% else %}
+                        <li> <li class="alert-error"> {{ message }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    </div>
+</section>
+
+<section id="maincontent">
+    <div class="container">
+        {% block content %}
+            {% comment %} Quick Link {% endcomment %}
+
+        {% endblock %}
+    </div>
+</section>
+
+
+</body>
+</html>

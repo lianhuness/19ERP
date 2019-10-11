@@ -1,0 +1,28 @@
+{% if contactor_list %}
+{% comment %} Single CP {% endcomment %}
+    <table class="table table-striped">
+        <tr>
+            <th> Name </th>
+            <th> Position</th>
+            <th> Email </th>
+            <th> Skype</th>
+            <th> Wechat </th>
+            <th> Tel</th>
+            <th> Note </th>
+        </tr>
+
+    {% for contactor in contactor_list %}
+        <tr>
+            <td> {{ contactor.name }}</td>
+            <td> {{ contactor.position }}</td>
+            <td> {{ contactor.email }}</td>
+            <td> {{ contactor.skype }}</td>
+            <td> {{ contactor.wechat }}</td>
+            <td> {{ contactor.tel }}</td>
+            <td> {{ contactor.note }}</td>
+            <td> <a href="{% url 'edit_contactor' contactor_id=contactor.id %}"> Edit </a></td>
+        </tr>
+    {% endfor %}
+    </table>
+
+{% endif %}

@@ -1,0 +1,23 @@
+{% if payment_set %}
+    <table>
+        <tr>
+            <th> Payment Date </th>
+            <th> Amount </th>
+            <th> Account </th>
+            <th> Payee </th>
+            <th> Note </th>
+        </tr>
+
+        {% for payment in payment_set %}
+            <tr>
+                <td> {{ payment.payment_date }}</td>
+                <td> {{ payment.amount }} </td>
+                <td> {{ payment.account }}</td>
+                <td> {{ payment.payee }}</td>
+                <td> {{ payment.note }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+{% endif %}

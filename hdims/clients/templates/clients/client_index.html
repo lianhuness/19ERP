@@ -1,0 +1,27 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+     <strong> My Clients - {{ client_set|length }}  </strong>
+
+    <ul class="inline">
+        <li> <a href="{% url 'add_client' %}" class="btn btn-primary mb-2">Add Client </a> </li>
+    </ul>
+{% endblock %}
+
+{% block subintro_list%}
+    <li class="active">Clients </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <form class="form-inline" action="{% url 'client_index' %}" method="post">
+            {% csrf_token %}
+            {{ filterForm }}
+            <button type="submit" class="btn btn-primary mb-2">Search </button>
+        </form>
+    </div>
+
+    <div class="row">
+        {% include "htmls/client_display.html" with client_set=client_set %}
+    </div>
+{% endblock %}

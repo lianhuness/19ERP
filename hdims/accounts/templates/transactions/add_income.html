@@ -1,0 +1,35 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+   {{ co }}: <strong> ADD Income </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li><a href={% url 'client_index' %}> Clients </a>
+        <span class="divider">/</span>
+    </li>
+    <li><a href="{% url 'view_client' client_id=client.id  %}" > {{ client }} </a>
+        <span class="divider">/</span>
+    </li>
+    <li><a href="{% url 'view_co' co_id=co.id  %}" > {{ co }} </a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active"> Add Income </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% include 'htmls/transfer_display.html' with transfer_set=co.incomeTransferSet  %}
+    </div>
+
+    <div class="row">
+    <h4> New Income </h4>
+    <form action="{% url 'add_income' co_id=co.id %}" method="post">
+        {% csrf_token %}
+        <table class="table">
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Add Income "/>
+    </form>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "htmls/base.html" %}
+
+
+{% block subintro_title %}
+    {{ client }} <strong> Add Product  </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li><a href={% url 'client_index' %}> Clients </a>
+        <span class="divider">/</span>
+    </li>
+    <li><a href="{% url 'view_client' client_id=client.id  %}" > {{ client }} </a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active"> Add Product </li>
+{% endblock %}
+
+{% block content %}
+
+    {% if client.clientproduct_set.all|length > 0 %}
+        <div class="row">
+            <h4> Products </h4>
+            {% include "htmls/cp_display.html" with cp_list=client.clientproduct_set.all %}
+        </div>
+    {% endif  %}
+
+    <div class="row">
+
+        <h4>  Add Product  </h4>
+        <form action="{% url 'add_clientproduct' client_id=client.id %}" method="POST">
+            {% csrf_token %}
+            <table class="table">
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Add"/>
+        </form>
+
+    </div>
+
+
+{% endblock %}

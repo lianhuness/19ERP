@@ -1,0 +1,29 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+     <strong> Accounts - ADD NEW  </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li> <a href="{% url 'account_index' %}"> Accounts</a><span class="divider">/</span></li>
+    <li class="active"> Add Account </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+
+        <h4> Account Lists </h4>
+        {% include 'htmls/account_display.html' with account_list=account_list %}
+    </div>
+
+    <div class="row">
+        <form action="{% url 'add_account' %}" method="post">
+            {% csrf_token %}
+            <table class="table">
+                {{ form.as_table }}
+            </table>
+
+            <input type="submit"  class="btn btn-large btn-color btn-rounded"  value="Add"/>
+        </form>
+    </div>
+
+{% endblock %}

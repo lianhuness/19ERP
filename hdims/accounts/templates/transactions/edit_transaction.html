@@ -1,0 +1,29 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+     EDIT <strong> Transfer </strong>
+{% endblock %}
+
+{% block subintro_list%}
+    <li><a href={% url 'list_transaction' %}> Transactions  </a>
+        <span class="divider">/</span>
+    </li>
+
+    <li class="active"> Edit Transfer </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h4> Edit  </h4>
+
+        <form action="{% url 'edit_transaction' tran_id=tran.id %}" method="post">
+            <table class="table">
+                {% csrf_token %}
+                {{ form.as_table }}
+            </table>
+            <input type="submit" class="btn btn-large btn-color btn-rounded" value="Edit"/>
+        </form>
+
+    </div>
+
+{% endblock %}

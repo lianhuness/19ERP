@@ -1,0 +1,31 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+     <strong> 结汇  </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li> <a href="{% url 'list_transaction' %}"> Transfers </a><span class="divider">/</span></li>
+    <strong> 结汇  </strong>
+{% endblock %}
+
+
+{% block content %}
+    <script>
+        $(document).ready(function () {
+            $("input#id_rate").change(function(){
+                $("input#id_trueAmount").val($(this).val()*$("input#id_amount").val());
+            })
+        })
+    </script>
+    <div class="row">
+        <form action="{% url 'jiehui_income' income_id=income.id %}" method="POST">
+            {% csrf_token %}
+            <table class="table">
+                {{ form.as_table }}
+            </table>
+            <input type="submit" class="btn btn-large btn-color btn-rounded"  value="结汇"/>
+        </form>
+    </div>
+
+{% endblock  %}
+

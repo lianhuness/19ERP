@@ -1,0 +1,39 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+   {{ client }}: <strong> NEW ORDER </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li><a href={% url 'client_index' %}> Clients </a>
+        <span class="divider">/</span>
+    </li>
+    <li><a href="{% url 'view_client' client_id=client.id  %}" > {{ client }} </a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active"> Add Order </li>
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+
+        {% if client.clientorder_set.all|length > 0 %}
+            <h4> Existing Orders </h4>
+            {% include "htmls/co_display.html" with co_list=client.clientorder_set.all %}
+        {% endif  %}
+
+    </div>
+
+    <div class="row">
+
+        <h1> New Order</h1>
+        <form action="{% url 'add_clientorder' client_id=client.id %}" method="POST">
+            {% csrf_token %}
+            <table class="table">
+                {{ form.as_table }}
+            </table>
+             <input type="submit" class="btn btn-large btn-color btn-rounded"  value="Add"/>
+        </form>
+    </div>
+
+{% endblock %}

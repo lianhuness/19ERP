@@ -1,0 +1,27 @@
+{% extends "htmls/base.html" %}
+
+{% block subintro_title %}
+    Client - <strong>  {{ client }}  </strong>
+{% endblock %}
+{% block subintro_list%}
+    <li> <a href="{% url 'client_index' %}"> Clients</a><span class="divider">/</span></li>
+    <li> <a href="{% url 'view_client' client_id=client.id %}"> {{client}}</a><span class="divider">/</span></li>
+    <li class="active"> Add Contactor </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h1> Add Contactor </h1>
+        <p>  (*) 必要选项！  下订单是，需要选择客户联系人用来建立PI/Invoice! </p>
+        <hr>
+
+        <form action="{% url 'add_contactor' client_id=client.id %}" method="POST">
+            {% csrf_token %}
+            <table class="table">
+                {{ form.as_table }}
+            </table>
+            <input type="submit"  class="btn btn-large btn-color btn-rounded"  value="Add"/>
+        </form>
+
+    </div>
+{% endblock %}

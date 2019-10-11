@@ -1,0 +1,23 @@
+{% if receive_set %}
+    <table class="table">
+        <tr>
+            <th> Receive Date </th>
+            <th> Amount </th>
+            <th> Account </th>
+            <th> Payer </th>
+            <th> Note </th>
+        </tr>
+
+        {% for receive in receive_set %}
+            <tr>
+                <td> {{ receive.receive_date }}</td>
+                <td> {{ receive.amount }} </td>
+                <td> {{ receive.account }}</td>
+                <td> {{ receive.payer }}</td>
+                <td> {{ receive.note }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+{% endif %}

@@ -1,0 +1,72 @@
+{% if cp_single or cp_list %}
+{% comment %} Single CP {% endcomment %}
+    <table class="table table-striped">
+        <tr>
+            {% if cp_list %}
+                <th> Index </th>
+            {% endif %}
+
+            <th> Name </th>
+            <th> Price </th>
+            <th> Price Term </th>
+            <th> Price(RMB)</th>
+            <th> Cost(RMB)</th>
+            <th> Material </th>
+            <th> Weight</th>
+            <th> Size </th>
+
+            <th> Carton Size </th>
+            <th> #/Carton</th>
+            <th> Carton N.W.(KG)</th>
+            <th> Carton G.W.(KG)</th>
+        </tr>
+
+        {% if cp_single %}
+            <tr>
+                <td> {{ cp_single.name }}</td>
+                <td> {{ cp_single.cpinfo.price }}</td>
+                <td> {{ cp_single.cpinfo.priceTerm }}</td>
+                <td> {{ cp_single.cpinfo.priceRMB }}</td>
+                <td> {{  cp_single.cpinfo.cost }}</td>
+                <td> {{ cp_single.cpinfo.material }}</td>
+                <td> {{ cp_single.cpinfo.unit_weight }}</td>
+                <td> {{ cp_single.cpinfo.unit_size }}</td>
+                <td> {{ cp_single.cpinfo.carton_size }}</td>
+                <td> {{ cp_single.cpinfo.qty_carton }}</td>
+                <td> {{ cp_single.cpinfo.carton_gw }}</td>
+                <td> {{ cp_single.cpinfo.carton_nw }}</td>
+            </tr>
+        {% endif %}
+
+        {% if cp_list %}
+            {% for cp_single in cp_list %}
+                <tr>
+                    <td> {{ forloop.counter }}</td>
+                    <td> {{ cp_single.name }}
+                    </td>
+                    <td> {{ cp_single.cpinfo.price }}</td>
+                    <td> {{ cp_single.cpinfo.priceTerm }}</td>
+                    <td> {{ cp_single.cpinfo.priceRMB }}</td>
+                    <td> {{  cp_single.cpinfo.cost }}</td>
+                    <td> {{ cp_single.cpinfo.material }}</td>
+                    <td> {{ cp_single.cpinfo.unit_weight }}</td>
+                    <td> {{ cp_single.cpinfo.unit_size }}</td>
+                    <td> {{ cp_single.cpinfo.carton_size }}</td>
+                    <td> {{ cp_single.cpinfo.qty_carton }}</td>
+                    <td> {{ cp_single.cpinfo.carton_gw }}</td>
+                    <td> {{ cp_single.cpinfo.carton_nw }}</td>
+                    <td>
+                        <a href="{% url 'edit_cp_info' cp_id=cp_single.id %}" > Edit </a>
+                        {% if cp_single.expired and user.member.isManager %}
+                            <a href="{% url 'expire_cp' cp_id=cp_single.id expired=0 %}"> Active </a>
+                        {% endif %}
+
+                        {% if cp_single.expired == False %}
+                            <a href="{% url 'expire_cp' cp_id=cp_single.id expired=1 %}"> Inactive </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+{% endif %}
