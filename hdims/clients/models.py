@@ -96,18 +96,18 @@ class CPInfo(models.Model):
                            verbose_name='Product')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='created_time')
 
-    price = models.DecimalField(decimal_places=2, max_digits=6, verbose_name='Price')
+    price = models.DecimalField(decimal_places=3, max_digits=6, verbose_name='Price')
     currency = models.CharField(max_length=5, choices=settings.CURRENCE_CHOICE, default='USD')
 
     priceTerm = models.CharField(max_length=5, choices=PRICE_TERM_CHOICE,
                                  verbose_name='Price Term',
                                  default='FOB')
-    priceRMB = models.DecimalField(decimal_places=2, max_digits=6, verbose_name=u'Price(RMB)')
+    priceRMB = models.DecimalField(decimal_places=3, max_digits=6, verbose_name=u'Price(RMB)')
 
-    cost = models.DecimalField(decimal_places=2, max_digits=6, default=0, verbose_name='Cost(RMB)')
+    cost = models.DecimalField(decimal_places=3, max_digits=6, default=0, verbose_name='Cost(RMB)')
 
     unit_size = models.CharField(max_length=50, verbose_name='Unit Size', help_text='L*W*H(cm)', blank=True, null=True)
-    unit_weight = models.DecimalField(max_digits=10, decimal_places=2,
+    unit_weight = models.DecimalField(max_digits=10, decimal_places=3,
                                       verbose_name="Unit Weight(g)",
                                       help_text='',
                                       blank=True, null=True)
@@ -120,11 +120,11 @@ class CPInfo(models.Model):
                                    null=True)
     qty_carton = models.PositiveIntegerField(verbose_name="Units Per Carton",
                                              default=0)
-    carton_nw = models.DecimalField(max_digits=5, decimal_places=2,
+    carton_nw = models.DecimalField(max_digits=5, decimal_places=3,
                                     verbose_name="Carton N.W.(KG)",
                                     blank=True,
                                     null=True)
-    carton_gw = models.DecimalField(max_digits=5, decimal_places=2,
+    carton_gw = models.DecimalField(max_digits=5, decimal_places=3,
                                     verbose_name="Carton G.W.(KG)",
                                     blank=True,
                                     null=True)
@@ -183,7 +183,7 @@ class ClientOrder(models.Model):
     archive = models.BooleanField(default = False, verbose_name='Archived')
     order_type = models.CharField(max_length=10, default='Order', choices=CO_TYPE_CHOICE, verbose_name='Type')
     po_number = models.CharField(max_length=50, default='N/A', verbose_name='PO')
-    totalAmount = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Total Amount')
+    totalAmount = models.DecimalField(max_digits=10, decimal_places=3, default=0, verbose_name='Total Amount')
     currency = models.CharField(max_length=5, choices=settings.CURRENCE_CHOICE, default='USD', verbose_name='Currency')
     deliveryDate = models.DateField(default='2099-01-01', verbose_name='Delivery Date')
     contactor = models.ForeignKey(ClientContactor, on_delete=models.CASCADE, verbose_name='Client Contactor')
@@ -271,9 +271,9 @@ class OrderProduct(models.Model):
     co = models.ForeignKey(ClientOrder, on_delete=models.CASCADE, verbose_name='ClientOrder')
     cp = models.ForeignKey(ClientProduct, on_delete=models.CASCADE, verbose_name='Client Product')
     qty = models.PositiveIntegerField(verbose_name='Qty', default=0)
-    price = models.DecimalField(decimal_places=2, max_digits=6, verbose_name='Price')
+    price = models.DecimalField(decimal_places=3, max_digits=6, verbose_name='Price')
     currency = models.CharField(max_length=5, choices=settings.CURRENCE_CHOICE, default='USD')
-    subtotal = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Sub-Total')
+    subtotal = models.DecimalField(decimal_places=3, max_digits=10, verbose_name='Sub-Total')
     note = models.CharField(max_length=100, verbose_name='Note', blank=True, default='')
 
     def __str__(self):

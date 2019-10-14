@@ -80,10 +80,10 @@ class AccountBalance(models.Model):
     balance_date = models.DateField(verbose_name="Balance Date", default=datetime.date.today())
     parentABNode = models.ForeignKey('self', on_delete=models.CASCADE,  blank=True, null=True,
                                      related_name='nextBalance', verbose_name='Parent Account Balance')
-    previousBalance = models.DecimalField(verbose_name="Previous Balance", max_digits=10, decimal_places=2, default=0)
-    activitySum = models.DecimalField(verbose_name="Activity Sum", max_digits=10, decimal_places=2, default=0)
-    adjustBalance = models.DecimalField(verbose_name="Adjust Balance", max_digits=10, decimal_places=2, default=0)
-    balance = models.DecimalField(verbose_name="Balance", max_digits=10, decimal_places=2, default=0)
+    previousBalance = models.DecimalField(verbose_name="Previous Balance", max_digits=10, decimal_places=3, default=0)
+    activitySum = models.DecimalField(verbose_name="Activity Sum", max_digits=10, decimal_places=3, default=0)
+    adjustBalance = models.DecimalField(verbose_name="Adjust Balance", max_digits=10, decimal_places=3, default=0)
+    balance = models.DecimalField(verbose_name="Balance", max_digits=10, decimal_places=3, default=0)
     # Previous Blanace + activyt Sum + adjust = Balance
     note = models.TextField(verbose_name='Note', blank=True, null=True)
 
@@ -113,8 +113,8 @@ from clients.models import ClientOrder, Client, OrderProduct
 
 class OrderPL(models.Model):
     co = models.OneToOneField(ClientOrder, on_delete=models.CASCADE, verbose_name='Order')
-    orderTotalAmount = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Order Amount')
-    productTotalAmount = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Product Total Amount')
+    orderTotalAmount = models.DecimalField(decimal_places=3, max_digits=10, verbose_name='Order Amount')
+    productTotalAmount = models.DecimalField(decimal_places=3, max_digits=10, verbose_name='Product Total Amount')
 
 TRANSFER_TYPE_CHOICE=(
     ('IO', u'收支'),
@@ -129,7 +129,7 @@ class Transfer(models.Model):
 
     date = models.DateField(verbose_name='Date', auto_now=True)
     account = models.ForeignKey(Account, on_delete=models.CASCADE, verbose_name='Account' )
-    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Amount')
+    amount = models.DecimalField(max_digits=10, decimal_places=3, verbose_name='Amount')
     currency = models.CharField(max_length=5,
                                 choices=settings.CURRENCE_CHOICE,
                                 default='USD',
@@ -137,22 +137,22 @@ class Transfer(models.Model):
     note = models.TextField(verbose_name='Note')
 
     need_jiehui = models.BooleanField(default=False, verbose_name='Jiehui')
-    trueAmount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='True Amount', default=0)
+    trueAmount = models.DecimalField(max_digits=10, decimal_places=3, verbose_name='True Amount', default=0)
     type = models.CharField(max_length=10, verbose_name='Type', default='IO')
     abnode = models.ForeignKey(AccountBalance, on_delete=models.CASCADE, verbose_name='Account Balance Node', null=True, blank=True)
 
 class CoSummary(models.Model):
     updated_time = models.DateTimeField(auto_now=True, verbose_name='Updated Time')
     co = models.OneToOneField(ClientOrder, on_delete=models.CASCADE, verbose_name='Client Order')
-    orderAmount = models.DecimalField(verbose_name='Order Amount ', max_digits=10, decimal_places=2, default=0)
+    orderAmount = models.DecimalField(verbose_name='Order Amount ', max_digits=10, decimal_places=3, default=0)
     orderCurrency = models.CharField(verbose_name='Order Currency', max_length=10, choices=settings.CURRENCE_CHOICE)
-    cpAmount = models.DecimalField(verbose_name='OrderItem Total', max_digits=10, decimal_places=2, default=0)
-    incomeTotal = models.DecimalField(verbose_name='Income Total', max_digits=10, decimal_places=2, default=0)
-    unpaidTotal = models.DecimalField(verbose_name='Unpaid Total', max_digits=10, decimal_places=2, default=0)
-    rmbIncomeTotal = models.DecimalField(verbose_name=u'人民币总收款', max_digits=10, decimal_places=2, default=0)
-    rmbOutcomeTotal =  models.DecimalField(verbose_name=u'人民币总付款', max_digits=10, decimal_places=2, default=0)
-    rmbProfit = models.DecimalField(verbose_name=u'人民币净利润', max_digits=10, decimal_places=2, default=0)
-    rmbProfitRatio = models.DecimalField(verbose_name=u'利润率', max_digits=10, decimal_places=2, default=0)
+    cpAmount = models.DecimalField(verbose_name='OrderItem Total', max_digits=10, decimal_places=3, default=0)
+    incomeTotal = models.DecimalField(verbose_name='Income Total', max_digits=10, decimal_places=3, default=0)
+    unpaidTotal = models.DecimalField(verbose_name='Unpaid Total', max_digits=10, decimal_places=3, default=0)
+    rmbIncomeTotal = models.DecimalField(verbose_name=u'人民币总收款', max_digits=10, decimal_places=3, default=0)
+    rmbOutcomeTotal =  models.DecimalField(verbose_name=u'人民币总付款', max_digits=10, decimal_places=3, default=0)
+    rmbProfit = models.DecimalField(verbose_name=u'人民币净利润', max_digits=10, decimal_places=3, default=0)
+    rmbProfitRatio = models.DecimalField(verbose_name=u'利润率', max_digits=10, decimal_places=3, default=0)
     needJiehuiQty = models.PositiveIntegerField(verbose_name='TBD Jiehui', default=0)
 
     def warningList(self):
