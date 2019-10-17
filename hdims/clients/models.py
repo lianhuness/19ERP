@@ -102,7 +102,7 @@ class CPInfo(models.Model):
     priceTerm = models.CharField(max_length=5, choices=PRICE_TERM_CHOICE,
                                  verbose_name='Price Term',
                                  default='FOB')
-    priceRMB = models.DecimalField(decimal_places=3, max_digits=6, verbose_name=u'Price(RMB)')
+    priceRMB = models.DecimalField(decimal_places=3, max_digits=6, verbose_name=u'Price(RMB)', default=0)
 
     cost = models.DecimalField(decimal_places=3, max_digits=6, default=0, verbose_name='Cost(RMB)')
 
@@ -134,7 +134,7 @@ class CPInfo(models.Model):
         return "INFO: %s" % self.cp
 
 
-CPINFO_DISPLAY_FIELDS= ['price', 'currency', 'priceTerm', 'note', 'priceRMB', 'cost',
+CPINFO_DISPLAY_FIELDS= ['price', 'currency', 'priceTerm', 'note',
                         'unit_size', 'unit_weight', 'material',
                         'carton_size', 'qty_carton', 'carton_nw', 'carton_gw', 'note']
 
@@ -271,7 +271,7 @@ class OrderProduct(models.Model):
     co = models.ForeignKey(ClientOrder, on_delete=models.CASCADE, verbose_name='ClientOrder')
     cp = models.ForeignKey(ClientProduct, on_delete=models.CASCADE, verbose_name='Client Product')
     qty = models.PositiveIntegerField(verbose_name='Qty', default=0)
-    price = models.DecimalField(decimal_places=3, max_digits=6, verbose_name='Price')
+    price = models.DecimalField(decimal_places=3, max_digits=6, verbose_name='Price', default=0)
     currency = models.CharField(max_length=5, choices=settings.CURRENCE_CHOICE, default='USD')
     subtotal = models.DecimalField(decimal_places=3, max_digits=10, verbose_name='Sub-Total')
     note = models.CharField(max_length=100, verbose_name='Note', blank=True, default='')
@@ -287,5 +287,5 @@ def orderproduct_update_subtotal(instance, **kwargs):
 class OrderProductForm(forms.ModelForm):
     class Meta:
         model = OrderProduct
-        fields = ['cp', 'qty', 'note' ]
+        fields = ['cp', 'qty', 'price', 'currency', 'note' ]
 

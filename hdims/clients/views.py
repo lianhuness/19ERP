@@ -347,6 +347,9 @@ def add_cop(request, co_id):
         form = OrderProductForm()
         form.fields['cp'].queryset = client.clientproduct_set.filter(expired=False).all()
 
+    form.fields['price'].widget = forms.HiddenInput()
+    form.fields['currency'].widget=forms.HiddenInput()
+
 
     html = "clientorders/%s.html" % whoami()
     return render(request, html, {'client': client, 'co': co, 'form': form})
